@@ -11,6 +11,7 @@
 <module>assurance-service</module>
 <module>preteur-service</module>
 <module>platforme-service</module>
+<module>commons-service</module>
 </modules>
   <dependencyManagement>
     <dependencies>
