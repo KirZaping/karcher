@@ -1,8 +1,8 @@
-// package fr.pantheonsorbonne.service;
+package fr.pantheonsorbonne.service;
 
-// import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
-// @ApplicationScoped
-// public class LenderService {
-//     // Logique de service pour gérer les prêteurs
-// } 
+@ApplicationScoped
+public class LenderService {
+    // Logique de service pour gérer les prêteurs
+} 
