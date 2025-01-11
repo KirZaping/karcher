@@ -11,56 +11,12 @@
     <header class="banner">
         <h1>Les véhicules disponibles</h1>
     </header>
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Exemple de carte de voiture -->
-            <div class="col-12 mb-4">
-                <div class="card">
-                    <img src="../images/car1.png" class="card-img-top" alt="Voiture 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Type: SUV</h5>
-                        <p class="card-text">Marque: Toyota</p>
-                        <p class="card-text">Modèle: RAV4</p>
-                        <p class="card-text">Propriétaire: Jean Dupont</p>
-                        <p class="card-text">Note: ⭐⭐⭐⭐☆</p>
-                        <p class="card-text">Prix: 50€/jour</p>
-                        <p class="card-text">Assurance: Tous risques</p>
-                        <a href="reservation.html?type=SUV&brand=Toyota&model=RAV4&owner=Jean%20Dupont&price=50&insurance=Tous%20risques&image=../images/car1.png&rating=4" class="btn btn-primary">Réserver le véhicule</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Répétez les cartes pour d'autres voitures -->
-            <div class="col-12 mb-4">
-                <div class="card">
-                    <img src="../images/car2.png" class="card-img-top" alt="Voiture 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Type: Berline</h5>
-                        <p class="card-text">Marque: BMW</p>
-                        <p class="card-text">Modèle: Série 3</p>
-                        <p class="card-text">Propriétaire: Marie Curie</p>
-                        <p class="card-text">Note: ⭐⭐⭐⭐⭐</p>
-                        <p class="card-text">Prix: 70€/jour</p>
-                        <p class="card-text">Assurance: Tous risques</p>
-                        <a href="reservation.html?type=Berline&brand=BMW&model=Série%203&owner=Marie%20Curie&price=70&insurance=Tous%20risques&image=../images/car2.png&rating=5" class="btn btn-primary">Réserver le véhicule</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mb-4">
-                <div class="card">
-                    <img src="../images/car3.png" class="card-img-top" alt="Voiture 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Type: Citadine</h5>
-                        <p class="card-text">Marque: Renault</p>
-                        <p class="card-text">Modèle: Clio</p>
-                        <p class="card-text">Propriétaire: Pierre Martin</p>
-                        <p class="card-text">Note: ⭐⭐⭐⭐☆</p>
-                        <p class="card-text">Prix: 40€/jour</p>
-                        <p class="card-text">Assurance: Basique</p>
-                        <a href="reservation.html?type=Citadine&brand=Renault&model=Clio&owner=Pierre%20Martin&price=40&insurance=Basique&image=../images/car3.png&rating=4" class="btn btn-primary">Réserver le véhicule</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container mt-4" id="carList">
+        <!-- Les voitures seront ajoutées ici dynamiquement -->
+    </div>
+
+    <div id="noCarsMessage" class="container mt-4" style="display: none;">
+        <p>Aucune voiture disponible.</p>
     </div>
 
     <!-- Footer -->
@@ -70,5 +26,50 @@
             <p><a href="/mentions-legales">Mentions légales</a></p>
         </div>
     </footer>
+
+    <script>
+        // Fonction pour récupérer les voitures depuis l'API
+        function fetchCars() {
+            fetch('/cars')
+                .then(response => response.json())
+                .then(cars => {
+                    const carList = document.getElementById('carList');
+                    const noCarsMessage = document.getElementById('noCarsMessage');
+                    carList.innerHTML = ''; // Réinitialiser la liste
+
+                    if (cars.length === 0) {
+                        noCarsMessage.style.display = 'block'; // Afficher le message si aucune voiture
+                    } else {
+                        noCarsMessage.style.display = 'none'; // Cacher le message
+                        cars.forEach(car => {
+                            const carCard = `
+                                <div class="col-12 mb-4">
+                                    <div class="card">
+                                        <img src="${car.image}" class="card-img-top" alt="${car.model}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Type: ${car.type}</h5>
+                                            <p class="card-text">Marque: ${car.brand}</p>
+                                            <p class="card-text">Modèle: ${car.model}</p>
+                                            <p class="card-text">Propriétaire: ${car.owner}</p>
+                                            <p class="card-text">Note: ⭐⭐⭐⭐☆</p>
+                                            <p class="card-text">Prix: ${car.price}€/jour</p>
+                                            <p class="card-text">Assurance: ${car.insurance}</p>
+                                            <a href="reservation.html?type=${car.type}&brand=${car.brand}&model=${car.model}&owner=${car.owner}&price=${car.price}&insurance=${car.insurance}&image=${car.image}&rating=4" class="btn btn-primary">Réserver le véhicule</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            carList.innerHTML += carCard; // Ajouter la carte à la liste
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des voitures:', error);
+                });
+        }
+
+        // Appeler la fonction pour récupérer les voitures lors du chargement de la page
+        window.onload = fetchCars;
+    </script>
 </body>
 </html>

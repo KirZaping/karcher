@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Véhicule - Karcher</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+<body>
+    <header class="banner">
+        <h1>Ajouter un Véhicule</h1>
+    </header>
+    <div class="container mt-4">
+        <form id="addCarForm">
+            <div class="form-group">
+                <label for="type">Type</label>
+                <input type="text" class="form-control" id="type" required>
+            </div>
+            <div class="form-group">
+                <label for="brand">Marque</label>
+                <input type="text" class="form-control" id="brand" required>
+            </div>
+            <div class="form-group">
+                <label for="model">Modèle</label>
+                <input type="text" class="form-control" id="model" required>
+            </div>
+            <div class="form-group">
+                <label for="owner">Propriétaire</label>
+                <input type="text" class="form-control" id="owner" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Prix (€/jour)</label>
+                <input type="number" class="form-control" id="price" required>
+            </div>
+            <div class="form-group">
+                <label for="insurance">Assurance</label>
+                <input type="text" class="form-control" id="insurance" required>
+            </div>
+            <div class="form-group">
+                <label for="image">URL de l'image</label>
+                <input type="text" class="form-control" id="image" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter le Véhicule</button>
+        </form>
+    </div>
+
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>Karcher &copy; 2025. Tous droits réservés.</p>
+            <p><a href="/mentions-legales">Mentions légales</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('addCarForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            const carData = {
+                type: document.getElementById('type').value,
+                brand: document.getElementById('brand').value,
+                model: document.getElementById('model').value,
+                owner: document.getElementById('owner').value,
+                price: parseFloat(document.getElementById('price').value),
+                insurance: document.getElementById('insurance').value,
+                image: document.getElementById('image').value
+            };
+
+            fetch('/cars', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(carData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Véhicule ajouté avec succès !');
+                    // Réinitialiser le formulaire
+                    document.getElementById('addCarForm').reset();
+                } else {
+                    alert('Erreur lors de l\'ajout du véhicule.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'ajout du véhicule.');
+            });
+        });
+    </script>
+</body>
+</html> 
