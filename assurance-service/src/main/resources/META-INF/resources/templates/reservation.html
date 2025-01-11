@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation d'un véhicule</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+<body>
+    <header class="banner">
+        <h1>Réservation de Véhicule</h1>
+    </header>
+    <div class="container mt-4">
+        <h2>Récapitulatif de la réservation</h2>
+        <img id="vehicleImage" src="" alt="Image du véhicule" class="img-fluid mb-3"> <!-- Image du véhicule -->
+        <p><strong>Type de véhicule :</strong> <span id="vehicleType"></span></p>
+        <p><strong>Marque :</strong> <span id="vehicleBrand"></span></p>
+        <p><strong>Modèle :</strong> <span id="vehicleModel"></span></p>
+        <p><strong>Propriétaire :</strong> <span id="vehicleOwner"></span></p>
+        <p><strong>Prix :</strong> <span id="vehiclePrice"></span> €/jour</p>
+        <p><strong>Assurance :</strong> <span id="vehicleInsurance"></span></p>
+        <p><strong>Note :</strong> <span id="vehicleRating"></span> ⭐</p>
+
+        <h3>Choisissez une date de réservation :</h3>
+        <input type="date" id="reservationDate" class="form-control mb-3">
+        
+        <button class="btn btn-primary" onclick="confirmReservation()">Confirmer la réservation</button>
+    </div>
+
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>Karcher &copy; 2025. Tous droits réservés.</p>
+            <p><a href="/mentions-legales">Mentions légales</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Récupérer les informations du véhicule depuis l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('vehicleType').innerText = urlParams.get('type');
+        document.getElementById('vehicleBrand').innerText = urlParams.get('brand');
+        document.getElementById('vehicleModel').innerText = urlParams.get('model');
+        document.getElementById('vehicleOwner').innerText = urlParams.get('owner');
+        document.getElementById('vehiclePrice').innerText = urlParams.get('price');
+        document.getElementById('vehicleInsurance').innerText = urlParams.get('insurance');
+        document.getElementById('vehicleImage').src = urlParams.get('image'); // Récupérer l'image
+        document.getElementById('vehicleRating').innerText = urlParams.get('rating');
+
+        function confirmReservation() {
+            alert('Réservation confirmée pour le ' + document.getElementById('reservationDate').value);
+        }
+    </script>
+</body>
+</html> 
