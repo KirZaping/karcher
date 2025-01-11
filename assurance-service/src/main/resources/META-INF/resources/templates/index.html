@@ -46,6 +46,8 @@
                 <span class="sr-only">Suivant</span>
             </a>
         </div>
+
+        <button id="addDefaultCarButton">Ajouter une Voiture par Défaut</button>
     </div>
 
     <!-- Footer -->
@@ -55,5 +57,26 @@
             <p><a href="/mentions-legales">Mentions légales</a></p>
         </div>
     </footer>
+
+    <script>
+        document.getElementById('addDefaultCarButton').addEventListener('click', function() {
+            fetch('/cars/add-default-car', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de l\'ajout de la voiture par défaut : ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Succès : " + data); // Affiche le message de succès
+            })
+            .catch(error => {
+                alert("Erreur : " + error.message); // Affiche le message d'erreur
+                console.error('Erreur:', error);
+            });
+        });
+    </script>
 </body>
 </html>

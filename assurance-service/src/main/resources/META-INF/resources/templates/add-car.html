@@ -66,6 +66,12 @@
                 image: document.getElementById('image').value
             };
 
+            // Vérification que toutes les informations sont remplies
+            if (Object.values(carData).some(value => !value)) {
+                alert('Veuillez remplir tous les champs.');
+                return;
+            }
+
             fetch('/cars', {
                 method: 'POST',
                 headers: {
@@ -79,14 +85,16 @@
                     // Réinitialiser le formulaire
                     document.getElementById('addCarForm').reset();
                 } else {
-                    alert('Erreur lors de l\'ajout du véhicule.');
+                    return response.json().then(errorData => {
+                        alert('Erreur lors de l\'ajout du véhicule : ' + (errorData.message || 'Vérifiez les informations saisies.'));
+                    });
                 }
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('Erreur lors de l\'ajout du véhicule.');
+                alert('Erreur lors de l\'ajout du véhicule : ' + error.message);
             });
-        });
+    }); // Correction de la parenthèse manquante
     </script>
 </body>
 </html> 

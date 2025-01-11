@@ -1,10 +1,11 @@
 package fr.pantheonsorbonne.service;
 
+import java.util.List;
+
 import fr.pantheonsorbonne.model.Car;
 import fr.pantheonsorbonne.repository.CarRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import java.util.List;
 
 @ApplicationScoped
 public class CarService {
@@ -17,6 +18,27 @@ public class CarService {
     }
 
     public void addCar(Car car) {
-        carRepository.persist(car);
+        if (car.getPrice() < 0) {
+            throw new IllegalArgumentException("Le prix ne peut pas être négatif.");
+        }
+        try {
+            carRepository.persist(car);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'ajout de la voiture : " + e.getMessage());
+            throw new RuntimeException("Erreur lors de l'ajout du véhicule. Vérifiez les informations saisies.");
+        }
+    }
+
+    public void addDefaultCar() {
+        Car car = new Car();
+        car.setType("SUV");
+        car.setBrand("Toyota");
+        car.setModel("RAV4");
+        car.setOwner("Jean Dupont");
+        car.setPrice(50);
+        car.setInsurance("Tous risques");
+        car.setImage("http://localhost:8080/images/car1.png");
+
+        addCar(car);
     }
 } 
