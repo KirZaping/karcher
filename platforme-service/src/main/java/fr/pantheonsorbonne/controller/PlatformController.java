@@ -9,8 +9,8 @@ import jakarta.ws.rs.core.MediaType;
 public class PlatformController {
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_HTML)
     public String getAvailableCars() {
-        return "{\"cars\": [\"Car1\", \"Car2\"]}";
+        return "<h1>Liste des voitures disponibles</h1>";
     }
 } 
