@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+// import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Car {
@@ -17,6 +18,9 @@ public class Car {
     private double price;
     private String insurance;
     private String image;
+
+    // @ManyToOne // Association avec Lender
+    // private Lender lender;
 
     // Getters et Setters
     public Long getId() {
@@ -82,4 +86,12 @@ public class Car {
     public void setImage(String image) {
         this.image = image;
     }
+
+    // public Lender getLender() {
+    //     return lender;
+    // }
+
+    // public void setLender(Lender lender) {
+    //     this.lender = lender;
+    // }
 } 

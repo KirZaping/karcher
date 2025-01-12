@@ -1,8 +1,27 @@
-package fr.pantheonsorbonne.service;
+// package fr.pantheonsorbonne.service;
 
-import jakarta.enterprise.context.ApplicationScoped;
+// import fr.pantheonsorbonne.model.Lender;
+// import fr.pantheonsorbonne.repository.LenderRepository;
+// import jakarta.enterprise.context.ApplicationScoped;
+// import jakarta.inject.Inject;
 
-@ApplicationScoped
-public class LenderService {
-    // Logique de service pour gérer les prêteurs
-} 
+// import java.util.List;
+
+// @ApplicationScoped
+// public class LenderService {
+
+//     @Inject
+//     LenderRepository lenderRepository;
+
+//     public void addLender(Lender lender) {
+//         lenderRepository.persist(lender);
+//     }
+
+//     public List<Lender> listLenders() {
+//         return lenderRepository.listAll();
+//     }
+
+//     public Lender findLenderById(Long id) {
+//         return lenderRepository.findById(id);
+//     }
+// }
