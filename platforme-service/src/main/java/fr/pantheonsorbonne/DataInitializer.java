@@ -2,6 +2,7 @@ package fr.pantheonsorbonne;
 
 import fr.pantheonsorbonne.model.Car;
 import fr.pantheonsorbonne.model.CarAvailability;
+import fr.pantheonsorbonne.repository.CarAvailabilityRepository;
 import fr.pantheonsorbonne.repository.CarRepository;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -9,12 +10,18 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+
+
 
 @ApplicationScoped
 public class DataInitializer {
 
     @Inject
     CarRepository carRepository;
+
+    @Inject
+    CarAvailabilityRepository carAvailabilityRepository;
 
     public void onStart(@Observes StartupEvent ev) {
         // Vérifiez si la base de données est vide avant d'ajouter des données
@@ -54,8 +61,6 @@ public class DataInitializer {
             carAvailabilityRepository.persist(availability1);
             carAvailabilityRepository.persist(availability2);
 
-            logger.info("Default cars and availability added.");
-            
             System.out.println("Default cars added: " + car1.getModel() + ", " + car2.getModel());
         } catch (PersistenceException e) {
             System.err.println("Erreur lors de l'ajout des véhicules par défaut : " + e.getMessage());
