@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assurances - Karcher</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+<body>
+    <header class="banner">
+        <h1>Informations sur les Assurances</h1>
+    </header>
+    <div class="container mt-4">
+        <div id="assuranceInfo"></div> <!-- Conteneur pour afficher les informations -->
+    </div>
+
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>Karcher &copy; 2025. Tous droits réservés.</p>
+            <p><a href="/mentions-legales">Mentions légales</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Récupérer les informations d'assurance
+        fetch('http://localhost:8080/assurance', {
+            method: 'GET'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des informations d\'assurance');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Afficher les informations dans le conteneur
+                document.getElementById('assuranceInfo').innerHTML = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('assuranceInfo').innerHTML = 'Erreur : ' + error.message;
+            });
+    </script>
+</body>
+</html>

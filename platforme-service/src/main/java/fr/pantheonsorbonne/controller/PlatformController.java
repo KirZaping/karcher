@@ -5,12 +5,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/platform")
+@Path("platforme")
 public class PlatformController {
 
     @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String getAvailableCars() {
-        return "<h1>Liste des voitures disponibles</h1>";
+    @Path("/assurance")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAssuranceInfo() {
+        return "{\"info\": \"Information sur l'assurance\"}";
     }
 } 
