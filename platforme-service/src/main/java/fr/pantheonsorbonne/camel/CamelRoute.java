@@ -2,15 +2,13 @@ package fr.pantheonsorbonne.camel;
 
 import org.apache.camel.builder.RouteBuilder;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 public class CamelRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("rest:get:/assurance") // Intercepte les requêtes GET à /assurance
-            .setBody(constant("{\"info\": \"Information sur l'assurance\"}")) // Définit la réponse
-            .setHeader("Content-Type", constant("application/json")); // Définit le type de contenu
+        // Route pour récupérer des données JSON de l'API assurance-service
+        from("timer://foo?repeatCount=1")
+            .to("http://localhost:8080/assurance")
+            .log("Réponse du service assurance: ${body}");
     }
 }
