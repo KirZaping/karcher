@@ -25,30 +25,22 @@ public class DataInitializer {
     @Transactional
     public void addDefaultCars() {
         try {
-            Car car1 = new Car();
-            car1.setType("SUV");
-            car1.setBrand("Toyota");
-            car1.setModel("RAV4");
-            car1.setOwner("Jean Dupont");
-            car1.setPrice(50);
-            car1.setInsurance("Tous risques");
-            car1.setImage("../images/car1.png");
+            for (int i = 1; i <= 50; i++) {
+                Car car = new Car();
+                car.setType(i % 2 == 0 ? "SUV" : "Berline"); // Alternance entre SUV et Berline
+                car.setBrand(i % 2 == 0 ? "Toyota" : "BMW"); // Alternance entre Toyota et BMW
+                car.setModel("Modèle " + i);
+                car.setOwner("Propriétaire " + i);
+                car.setPrice(50 + (i * 2)); // Prix croissant
+                car.setInsurance("Tous risques");
+                car.setImage("../images/car" + i + ".png");
 
-            Car car2 = new Car();
-            car2.setType("Berline");
-            car2.setBrand("BMW");
-            car2.setModel("Série 3");
-            car2.setOwner("Marie Curie");
-            car2.setPrice(70);
-            car2.setInsurance("Tous risques");
-            car2.setImage("../images/car2.png");
-
-            carRepository.persist(car1);
-            carRepository.persist(car2);
+                carRepository.persist(car);
+            }
             
-            System.out.println("Default cars added: " + car1.getModel() + ", " + car2.getModel());
+            System.out.println("50 voitures par défaut ajoutées.");
         } catch (PersistenceException e) {
             System.err.println("Erreur lors de l'ajout des véhicules par défaut : " + e.getMessage());
         }
     }
-} 
+}
