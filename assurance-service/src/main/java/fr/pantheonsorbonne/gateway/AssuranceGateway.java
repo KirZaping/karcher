@@ -15,7 +15,7 @@ public class AssuranceGateway extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         
-        rest("/assurance")
+        rest("/assurance/fetch-assurance")
             .get()
             .to("direct:getAssuranceInfo");
 

@@ -26,8 +26,8 @@ public class Assurance {
         coefficient_prix = switch (type_assurance) {
             case "Tout risques" -> 10;
             case "Arnaque" -> 5;
-            case "pigeon" -> 150;
-            default -> 0;
+            case "Pigeon" -> 150;
+            default -> 150;
         }; // Valeur par défaut si le type d'assurance ne correspond à aucun cas
         double confiance = (100-age) * (20-duree_permis); 
         if (confiance > 0.5) {
