@@ -20,20 +20,12 @@ public class Assurance {
 
     public void setPrice(double age, double duree_permis, String type_assurance) {
         double coefficient_prix;
-        switch (type_assurance) {
-            case "Tout risques":
-                coefficient_prix = 10;
-                break;
-            case "Arnaque":
-                coefficient_prix = 5;
-                break;
-            case "pigeon":
-                coefficient_prix = 150;
-                break;
-            default:
-                coefficient_prix = 0; // Valeur par défaut si le type d'assurance ne correspond à aucun cas
-                break;
-        }
+        coefficient_prix = switch (type_assurance) {
+            case "Tout risques" -> 10;
+            case "Arnaque" -> 5;
+            case "pigeon" -> 150;
+            default -> 0;
+        }; // Valeur par défaut si le type d'assurance ne correspond à aucun cas
         double confiance = (100-age) * (20-duree_permis); 
         if (confiance > 0.5) {
             this.price = TARIF_FORFAITAIRE + TARIF_FORFAITAIRE * confiance * coefficient_prix; // Utilisation de la constante pour le prix

@@ -18,7 +18,7 @@ public class CarService {
     }
 
     public void addCar(Car car) {
-        if (car.getPrice() < 0) {
+        if (car.getPricePerDay() < 0) {
             throw new IllegalArgumentException("Le prix ne peut pas être négatif.");
         }
         try {
@@ -35,8 +35,7 @@ public class CarService {
         car.setBrand("Toyota");
         car.setModel("RAV4");
         car.setOwner("Jean Dupont");
-        car.setPrice(50);
-        car.setInsurance("Tous risques");
+        car.setPricePerDay(50);
         car.setImage("http://localhost:8080/images/car1.png");
 
         addCar(car);

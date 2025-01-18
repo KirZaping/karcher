@@ -31,8 +31,7 @@ public class DataInitializer {
                 car.setBrand(i % 2 == 0 ? "Toyota" : "BMW"); // Alternance entre Toyota et BMW
                 car.setModel("Modèle " + i);
                 car.setOwner("Propriétaire " + i);
-                car.setPrice(50 + (i * 2)); // Prix croissant
-                car.setInsurance("Tous risques");
+                car.setPricePerDay(50 + (i * 2)); // Prix croissant
                 car.setImage("../images/car" + i + ".png");
 
                 carRepository.persist(car);
