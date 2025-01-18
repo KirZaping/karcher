@@ -4,21 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
+    private String owner;
     private String brand;
     private String model;
-    private String owner;
-    private double price;
+    private double pricePerDay;
+    private LocalDateTime startDateAvailability;
+    private LocalDateTime endDateAvailability;
+    private String type;
     private String insurance;
     private String image;
 
-    // Getters et Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -27,12 +30,12 @@ public class Car {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getBrand() {
@@ -51,20 +54,36 @@ public class Car {
         this.model = model;
     }
 
-    public String getOwner() {
-        return owner;
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
-    public double getPrice() {
-        return price;
+    public LocalDateTime getStartDateAvailability() {
+        return startDateAvailability;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setStartDateAvailability(LocalDateTime startDateAvailability) {
+        this.startDateAvailability = startDateAvailability;
+    }
+
+    public LocalDateTime getEndDateAvailability() {
+        return endDateAvailability;
+    }
+
+    public void setEndDateAvailability(LocalDateTime endDateAvailability) {
+        this.endDateAvailability = endDateAvailability;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getInsurance() {
