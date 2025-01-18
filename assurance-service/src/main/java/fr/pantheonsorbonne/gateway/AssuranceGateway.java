@@ -19,8 +19,6 @@ public class AssuranceGateway extends RouteBuilder {
             .get()
             .to("direct:getAssuranceInfo");
 
-
-
         from("direct:getAssuranceInfo")
             .process(exchange -> {
                 // Récupérer les paramètres de la requête
