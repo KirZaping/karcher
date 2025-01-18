@@ -1,5 +1,8 @@
 package fr.pantheonsorbonne.model;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class Assurance {
     private static final double TARIF_FORFAITAIRE = 25; // Constante pour le tarif forfaitaire
     private String type;
