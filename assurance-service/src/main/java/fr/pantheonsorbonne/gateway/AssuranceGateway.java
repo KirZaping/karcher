@@ -14,10 +14,10 @@ public class AssuranceGateway extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        
-        rest("/assurance/fetch-assurance")
-            .get()
+
+        from("rest:get:/assurance/fetch-assurance")
             .to("direct:getAssuranceInfo");
+            
 
         from("direct:getAssuranceInfo")
             .process(exchange -> {
@@ -44,6 +44,7 @@ public class AssuranceGateway extends RouteBuilder {
                 // Retourner la réponse du service
                 exchange.getIn().setBody(response);
                 exchange.getIn().setHeader("Content-Type", "application/json"); // Définir le type de contenu
-            });
+            })
+            .log("Réponse du service assurance: ${body}");
     }
 } 

@@ -9,10 +9,10 @@ public class PlateformeGateway extends RouteBuilder{
 
     @Override
     public void configure() throws Exception {
-        // Route pour récupérer des données JSON de l'API assurance-service
-        rest("/fetch-assurance")
-            .get()
-            .to("direct:fetch-assurance");
+
+        from("rest:get:/fetch-assurance")
+            .to("direct:fetch-assurance")
+            .log("Réponse du service assurance: ${body}");
 
         from("direct:fetch-assurance")
         // Extraire les paramètres dynamiques depuis l'URL
@@ -39,15 +39,15 @@ public class PlateformeGateway extends RouteBuilder{
 
 
 
-            from("rest:get:/fetch-lenders")
-                .to("http://localhost:8081/lenders-availability?bridgeEndpoint=true") // Appel direct au service de disponibilité des prêteurs avec bridgeEndpoint
-                .log("Réponse du service de disponibilité des prêteurs: ${body}")
-                .process(exchange -> {
-                    // Récupérer la réponse du service et la formater en JSON
-                    String response = exchange.getIn().getBody(String.class);
-                    exchange.getIn().setHeader("Content-Type", "application/json");
-                    exchange.getIn().setBody(response);
-                });
+        from("rest:get:/fetch-lenders")
+            .to("http://localhost:8081/lenders-availability?bridgeEndpoint=true") // Appel direct au service de disponibilité des prêteurs avec bridgeEndpoint
+            .log("Réponse du service de disponibilité des prêteurs: ${body}")
+            .process(exchange -> {
+                // Récupérer la réponse du service et la formater en JSON
+                String response = exchange.getIn().getBody(String.class);
+                exchange.getIn().setHeader("Content-Type", "application/json");
+                exchange.getIn().setBody(response);
+            });
 
     }
 } 
