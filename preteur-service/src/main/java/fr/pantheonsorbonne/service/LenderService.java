@@ -1,27 +1,19 @@
-// package fr.pantheonsorbonne.service;
+package fr.pantheonsorbonne.service;
 
-// import fr.pantheonsorbonne.model.Lender;
-// import fr.pantheonsorbonne.repository.LenderRepository;
-// import jakarta.enterprise.context.ApplicationScoped;
-// import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import java.util.Random;
 
-// import java.util.List;
+@ApplicationScoped
+public class LenderService {
 
-// @ApplicationScoped
-// public class LenderService {
+    private final Random random;
 
-//     @Inject
-//     LenderRepository lenderRepository;
+    public LenderService() {
+        this.random = new Random();
+    }
 
-//     public void addLender(Lender lender) {
-//         lenderRepository.persist(lender);
-//     }
-
-//     public List<Lender> listLenders() {
-//         return lenderRepository.listAll();
-//     }
-
-//     public Lender findLenderById(Long id) {
-//         return lenderRepository.findById(id);
-//     }
-// }
+    public String checkAvailability(String carId, String startDate, String endDate) {
+        // Simulate 50% chance of availability
+        return random.nextInt(2) == 0 ? "available" : "not available";
+    }
+}
