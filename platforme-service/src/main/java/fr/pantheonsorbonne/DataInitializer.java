@@ -9,6 +9,9 @@ import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 
+import java.util.Random;
+import java.time.LocalDate;
+
 @ApplicationScoped
 public class DataInitializer {
 
@@ -16,30 +19,41 @@ public class DataInitializer {
     CarRepository carRepository;
 
     public void onStart(@Observes StartupEvent ev) {
-        // Vérifiez si la base de données est vide avant d'ajouter des données
-        if (carRepository.count() == 0) {
-            addDefaultCars();
-        }
+        System.out.println("Adding default cars");
+        addDefaultCars();
     }
 
     @Transactional
     public void addDefaultCars() {
         try {
-            for (int i = 1; i <= 50; i++) {
+            Random random = new Random();
+            for (int i = 1; i <= 10; i++) { // Change to 10 cars
                 Car car = new Car();
-                car.setType(i % 2 == 0 ? "SUV" : "Berline"); // Alternance entre SUV et Berline
-                car.setBrand(i % 2 == 0 ? "Toyota" : "BMW"); // Alternance entre Toyota et BMW
-                car.setModel("Modèle " + i);
-                car.setOwner("Propriétaire " + i);
-                car.setPricePerDay(50 + (i * 2)); // Prix croissant
-                car.setImage("../images/car" + i + ".png");
+                car.setType(random.nextBoolean() ? "SUV" : "Sedan"); // Randomly choose between SUV and Sedan
+                car.setBrand(random.nextBoolean() ? "Toyota" : "BMW"); // Randomly choose between Toyota and BMW
+                car.setModel("Model " + (random.nextInt(100) + 1)); // Random model number between 1 and 100
+                car.setOwner("Owner " + i);
+                car.setPricePerDay(50 + (random.nextDouble() * 50)); // Random price between 50 and 100
+                //LocalDate startDate = LocalDate.now().plusDays(random.nextInt(1)); // Random start date within 30 days
+                //car.setStartDateAvailability(startDate); 
+                //car.setEndDateAvailability(startDate.plusDays(10)); // Fixed duration of availability for 10 days
+                
+                car.setStartDateAvailability(LocalDate.now());
+                car.setEndDateAvailability(LocalDate.now().plusDays(10));
+                // Set location alternating between Paris and Beirut
+                car.setLocation(i % 2 == 0 ? "Beirut" : "Paris");
+
+                // Ensure price is set before persisting
+                if (car.getPricePerDay() <= 0) {
+                    throw new IllegalArgumentException("Price per day must be greater than zero.");
+                }
 
                 carRepository.persist(car);
             }
             
-            System.out.println("50 voitures par défaut ajoutées.");
+            System.out.println("10 random cars added.");
         } catch (PersistenceException e) {
-            System.err.println("Erreur lors de l'ajout des véhicules par défaut : " + e.getMessage());
+            System.err.println("Error adding default vehicles: " + e.getMessage());
         }
     }
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Car {
@@ -15,10 +15,10 @@ public class Car {
     private String brand;
     private String model;
     private double pricePerDay;
-    private LocalDateTime startDateAvailability;
-    private LocalDateTime endDateAvailability;
+    private LocalDate startDateAvailability;
+    private LocalDate endDateAvailability;
     private String type; 
-    private String image; //?
+    private String location;
 
     // Getters and Setters
     public Long getId() {
@@ -61,19 +61,19 @@ public class Car {
         this.pricePerDay = pricePerDay;
     }
 
-    public LocalDateTime getStartDateAvailability() {
+    public LocalDate getStartDateAvailability() {
         return startDateAvailability;
     }
 
-    public void setStartDateAvailability(LocalDateTime startDateAvailability) {
+    public void setStartDateAvailability(LocalDate startDateAvailability) {
         this.startDateAvailability = startDateAvailability;
     }
 
-    public LocalDateTime getEndDateAvailability() {
+    public LocalDate getEndDateAvailability() {
         return endDateAvailability;
     }
 
-    public void setEndDateAvailability(LocalDateTime endDateAvailability) {
+    public void setEndDateAvailability(LocalDate endDateAvailability) {
         this.endDateAvailability = endDateAvailability;
     }
 
@@ -85,11 +85,12 @@ public class Car {
         this.type = type;
     }
 
-    public String getImage() {
-        return image;
+    public String getLocation() {
+        return location;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLocation(String location) {
+        this.location = location;
     }
+
 } 
