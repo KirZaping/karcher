@@ -6,6 +6,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
 
 @Path("/cars")
 public class CarController {
@@ -13,10 +15,32 @@ public class CarController {
     @Inject
     CarService carService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllCars() {
-        return carService.getAllCars(); // Appelle le service pour récupérer toutes les voitures
+        try {
+            return objectMapper.writeValueAsString(carService.getAllCars());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"error\": \"Unable to retrieve cars\"}";
+        }
+    }
+
+    @GET
+    @Path("/available")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAvailableCars(@jakarta.ws.rs.QueryParam("location") String location,
+                                   @jakarta.ws.rs.QueryParam("startDate") LocalDate startDate,
+                                   @jakarta.ws.rs.QueryParam("endDate") LocalDate endDate) {
+        try {
+            return objectMapper.writeValueAsString(carService.getAvailableCars(location, startDate, endDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"error\": \"Unable to retrieve available cars\"}";
+        }
     }
 
     // @GET
