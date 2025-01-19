@@ -1,10 +1,11 @@
 package fr.pantheonsorbonne.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDate;
 
 @Entity
 public class Car {
@@ -19,6 +20,24 @@ public class Car {
     private LocalDate endDateAvailability;
     private String type; 
     private String location;
+
+    // Constructeur par défaut
+    public Car() {
+        // Nécessaire pour Hibernate
+    }
+
+    // Constructeur avec paramètres
+    public Car(Long id, String owner, String brand, String model, double pricePerDay, LocalDate startDateAvailability, LocalDate endDateAvailability, String type, String location) {
+        this.id = id;
+        this.owner = owner;
+        this.brand = brand;
+        this.model = model;
+        this.pricePerDay = pricePerDay;
+        this.startDateAvailability = startDateAvailability;
+        this.endDateAvailability = endDateAvailability;
+        this.type = type;
+        this.location = location;
+    }
 
     // Getters and Setters
     public Long getId() {

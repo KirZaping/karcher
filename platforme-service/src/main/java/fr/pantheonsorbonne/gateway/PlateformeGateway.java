@@ -49,5 +49,34 @@ public class PlateformeGateway extends RouteBuilder{
                 exchange.getIn().setBody(response);
             });
 
+
+        //valider la disponibilité d'une voiture
+        from("rest:get:/fetch-car")
+            .toD("http://localhost:8081/car-availability?carId=${header.carId}&startDate=${header.startDate}&endDate=${header.endDate}&bridgeEndpoint=true")
+            .log("Réponse du service de disponibilité des voitures: ${body}")
+            .process(exchange -> {
+                String response = exchange.getIn().getBody(String.class);
+                exchange.getIn().setHeader("Content-Type", "application/json");
+                exchange.getIn().setBody(response);
+            });
+
+        //confirmer la location d'une voiture
+        from("rest:post:/confirm-location")
+            .to("http://localhost:8081/confirm-location?bridgeEndpoint=true")
+            .log("Réponse du service de confirmation de la location: ${body}")
+            .process(exchange -> {
+                String response = exchange.getIn().getBody(String.class);
+                exchange.getIn().setHeader("Content-Type", "application/json");
+                exchange.getIn().setBody(response);
+            });
+
+        from("rest:get:/fetch-all-cars")
+            .to("http://localhost:8083/list-cars?bridgeEndpoint=true")
+            .log("Réponse du service assurance: ${body}");
+
+        //http://localhost:8082/fetch-availability-cars?carId=1&startDate=2023-11-01&endDate=2023-11-10
+        from("rest:get:/fetch-availability-cars")
+            .to("http://localhost:8083/list-availability?bridgeEndpoint=true")
+            .log("Réponse du service assurance: ${body}");
     }
 } 
