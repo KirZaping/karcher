@@ -7,6 +7,9 @@ public class Assurance {
     private static final double TARIF_FORFAITAIRE = 25; // Constante pour le tarif forfaitaire
     private String type;
     private double price;
+    private double age;
+    private double duree_permis;
+    private String assureur;
 
     // Getters et Setters
     public String getType() {
@@ -17,23 +20,103 @@ public class Assurance {
         this.type = type;
     }
 
+    public double getAge() {
+        return age;
+    }
+
+    public void setAge(double age) {
+        this.age = age;
+    }
+
+    public double getDureePermis() {
+        return duree_permis;
+    }
+
+    public void setDureePermis(double duree_permis) {
+        this.duree_permis = duree_permis;
+    }
+
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double age, double duree_permis, String type_assurance) {
-        double coefficient_prix;
-        coefficient_prix = switch (type_assurance) {
+    public void setPrice() {
+        double coefficient_prix = switch (this.type) {
             case "Tout risques" -> 10;
             case "Arnaque" -> 5;
             case "Pigeon" -> 150;
             default -> 150;
-        }; // Valeur par défaut si le type d'assurance ne correspond à aucun cas
-        double confiance = (100-age) * (20-duree_permis); 
-        if (confiance > 0.5) {
-            this.price = TARIF_FORFAITAIRE + TARIF_FORFAITAIRE * confiance * coefficient_prix; // Utilisation de la constante pour le prix
+        };
+
+        // Calculer le prix en fonction de l'âge et de l'expérience
+        if (this.age > 65) {
+            this.price = TARIF_FORFAITAIRE * coefficient_prix * (1 + (this.age - 65) * 0.1);
         } else {
-            this.price = TARIF_FORFAITAIRE * coefficient_prix;
+            double confiance = (100 - this.age) * (20 - this.duree_permis);
+            if (confiance > 0.5) {
+                this.price = TARIF_FORFAITAIRE + TARIF_FORFAITAIRE * confiance * coefficient_prix;
+            } else {
+                this.price = TARIF_FORFAITAIRE * coefficient_prix;
+            }
         }
+
+        if (this.price > 500) {
+            this.price = 500;
+        }
+
+        // Comparer les tarifs des assureurs
+        comparerAssureur();
+    }
+
+    public void setAssuranceInfo(double age, double duree_permis, String type_assurance) {
+        setAge(age);
+        setDureePermis(duree_permis);
+        setType(type_assurance);
+    }
+
+    private void comparerAssureur() {
+        double prixCovea = setCoveaPrice();
+        double prixGroupama = setGroupamaPrice();
+        double prixMMA = setMMAPrice();
+
+        double prixMin = Math.min(prixCovea, Math.min(prixGroupama, prixMMA));
+        this.price = prixMin;
+
+        // Déterminer l'assureur le moins cher
+        if (prixMin == prixCovea) {
+            this.assureur = "Covéa";
+        } else if (prixMin == prixGroupama) {
+            this.assureur = "Groupama";
+        } else {
+            this.assureur = "MMA";
+        }
+    }
+
+    private double setCoveaPrice() {
+        double prixCovea = this.price; // Tarifs majorés à 400 EUR
+        if (prixCovea > 400) {
+            prixCovea = 400;
+        }
+        return prixCovea;
+    }
+
+    private double setGroupamaPrice() {
+        double prixGroupama = this.price;
+        if (this.age < 25 && this.duree_permis < 5) {
+            prixGroupama *= 0.6; // Tarifs avantageux pour les jeunes permis
+        }
+        return prixGroupama;
+    }
+
+    private double setMMAPrice() {
+        double prixMMA = this.price;
+        if (this.age > 60) {
+            prixMMA *= 0.65; // Avantages pour les personnes âgées
+        }
+        return prixMMA;
+    }
+
+    public String getAssureur() {
+        return assureur;
     }
 }

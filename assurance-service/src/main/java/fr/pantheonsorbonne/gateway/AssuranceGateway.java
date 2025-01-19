@@ -39,7 +39,8 @@ public class AssuranceGateway extends RouteBuilder {
                 double dureePermis = Double.parseDouble(dureePermisHeader);
 
                 // Appeler le service pour obtenir les informations
-                String response = assuranceService.getAssuranceInfo(age, dureePermis, type);
+                assuranceService.setAssuranceInfo(age, dureePermis, type);
+                String response = assuranceService.getAssuranceInfo();
 
                 // Retourner la réponse du service
                 exchange.getIn().setBody(response);
