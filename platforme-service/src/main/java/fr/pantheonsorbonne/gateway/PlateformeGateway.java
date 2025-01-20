@@ -36,20 +36,18 @@ public class PlateformeGateway extends RouteBuilder{
             .log("Message envoyé au broker: ${body}");
 
 
-
-        from("rest:get:/fetch-lenders")
-            .to("http://localhost:8081/lenders-availability?bridgeEndpoint=true") // Appel direct au service de disponibilité des prêteurs avec bridgeEndpoint
-            .log("Réponse du service de disponibilité des prêteurs: ${body}")
-            .process(exchange -> {
-                // Récupérer la réponse du service et la formater en JSON
-                String response = exchange.getIn().getBody(String.class);
-                exchange.getIn().setHeader("Content-Type", "application/json");
-                exchange.getIn().setBody(response);
-            });
-
-
         //valider la disponibilité d'une voiture
-        from("rest:get:/fetch-cars")
+        //http://localhost:8082/fetch-car?task=available&location=Paris&startDate=2025-01-20&endDate=2025-01-21
+        from("rest:get:/fetch-car")
+            .process(exchange -> {
+                String task = exchange.getIn().getHeader("task", String.class);
+                String location = exchange.getIn().getHeader("location", String.class);
+                String startDate = exchange.getIn().getHeader("startDate", String.class);
+                String endDate = exchange.getIn().getHeader("endDate", String.class);
+                String message = String.format("{\"task\": \"%s\", \"location\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\"}", 
+                    task, location, startDate, endDate);
+                exchange.getIn().setBody(message);
+            })
             .to("sjms2:queue:cars-queue")
             .log("[PlateformeGateway] Réponse du service de disponibilité des voitures: ${body}");
 

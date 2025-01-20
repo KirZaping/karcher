@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.gateway;
 
+import java.time.LocalDate;
+
 import org.apache.camel.builder.RouteBuilder;
 
 import fr.pantheonsorbonne.service.CarService;
@@ -18,20 +20,17 @@ public class CarGateway extends RouteBuilder{
         from("sjms2:queue:cars-queue")
             .log("[CarGateway] Message reçu du broker: ${body}")
             .process(exchange -> {
-                exchange.getIn().setBody(carService.getAllCars());
+                String task = exchange.getIn().getHeader("task", String.class);
+                if ("available".equals(task)) {
+                    exchange.getIn().setBody(carService.getAvailableCars(
+                        exchange.getIn().getHeader("location", String.class),
+                        LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
+                        LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
+                    ));
+                } else {
+                    exchange.getIn().setBody(carService.getAllCars());
+                }
                 exchange.getIn().setHeader("Content-Type", "application/json");
-            })
-            .log("[CarGateway] Réponse du service cars: ${body}");
-
-        /*from("rest:get:/list-availability/fetch-availability-cars")
-            .process(exchange -> {
-                String response = carService.fetchCarAvailability(exchange.getIn().getHeader("carId", String.class), 
-                exchange.getIn().getHeader("startDate", String.class), 
-                exchange.getIn().getHeader("endDate", String.class));
-                exchange.getIn().setBody(response);
-                exchange.getIn().setHeader("Content-Type", "application/json");
-                
-            })
-            .log("Réponse du service cars: ${body}");*/
+            });
     }
 }
