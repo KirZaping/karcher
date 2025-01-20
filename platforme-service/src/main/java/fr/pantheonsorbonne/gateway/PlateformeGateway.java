@@ -10,31 +10,8 @@ public class PlateformeGateway extends RouteBuilder{
     @Override
     public void configure() throws Exception {
 
-      /*   from("rest:get:/test")
-            .setBody(constant("Hello, World!"))
-            .to("sjms2:queue:platforme-queue")
-            .log("Message envoyé au broker: ${body}");
-
-        from("sjms2:queue:platforme-queue")
-            .log("Message reçu du broker: ${body}")
-            .log("Message reçu du broker: ${body}");*/
-
-
+        //http://localhost:8082/fetch-assurance?type=Arnaque&age=200&duree_permis=5
         from("rest:get:/fetch-assurance")
-            .to("direct:fetch-assurance")
-            .log("[PlateformeGateway] Réponse du service assurance: ${body}");
-            /* .process(exchange -> {
-                String type = exchange.getIn().getHeader("type", String.class);
-                String age = exchange.getIn().getHeader("age", String.class);
-                String dureePermis = exchange.getIn().getHeader("duree_permis", String.class);
-                exchange.getIn().setHeader("type", type);
-                exchange.getIn().setHeader("age", age);
-                exchange.getIn().setHeader("duree_permis", dureePermis);
-            })
-            .to("sjms2:queue:assurance-queue")
-            .log("[PlateformeGateway] Réponse du service assurance: ${body}");*/
-
-        from("direct:fetch-assurance")
             .process(exchange -> {
                 // Récupérer les paramètres de l'URL
                 String type = exchange.getIn().getHeader("type", String.class);
@@ -72,14 +49,9 @@ public class PlateformeGateway extends RouteBuilder{
 
 
         //valider la disponibilité d'une voiture
-        from("rest:get:/fetch-car")
-            .toD("http://localhost:8081/car-availability?carId=${header.carId}&startDate=${header.startDate}&endDate=${header.endDate}&bridgeEndpoint=true")
-            .log("Réponse du service de disponibilité des voitures: ${body}")
-            .process(exchange -> {
-                String response = exchange.getIn().getBody(String.class);
-                exchange.getIn().setHeader("Content-Type", "application/json");
-                exchange.getIn().setBody(response);
-            });
+        from("rest:get:/fetch-cars")
+            .to("sjms2:queue:cars-queue")
+            .log("[PlateformeGateway] Réponse du service de disponibilité des voitures: ${body}");
 
         //confirmer la location d'une voiture
         from("rest:post:/confirm-location")

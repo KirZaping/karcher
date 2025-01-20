@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.service;
 import java.time.LocalDate;
 //import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.pantheonsorbonne.model.Car;
 import fr.pantheonsorbonne.repository.CarRepository;
@@ -15,8 +16,12 @@ public class CarService {
     @Inject
     CarRepository carRepository;
 
-    public List<Car> getAllCars() {
-        return carRepository.listAll(); // Retrieve all cars from the database
+    public String getAllCars() {
+        String response = "[" + carRepository.listAll().stream()
+            .map(car -> String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\"}", 
+                car.getId(), car.getType(), car.getBrand(), car.getModel()))
+            .collect(Collectors.joining(", ")) + "]";
+        return response; // Retourne la liste des voitures au format JSON
     }
 
     public List<Car> getAvailableCars(String location, LocalDate startDate, LocalDate endDate) {
@@ -25,11 +30,14 @@ public class CarService {
 
 
 
-    // public List<Car> listCars() {
-    //     return carRepository.listAll(); // Retrieve all cars available in the database
-    // }
-
-    // public String fetchCarAvailability(String carId, String startDate, String endDate) {
+    public String listCars() {
+        List<Car> cars = carRepository.findAllCars();
+        String response = "[" + cars.stream()
+            .map(car -> String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\"}", 
+                car.getId(), car.getType(), car.getBrand(), car.getModel()))
+            .collect(Collectors.joining(", ")) + "]";
+        return response;
+    }
     //     List<Car> cars = carRepository.findAvailableCars("any location", LocalDate.parse(startDate), LocalDate.parse(endDate));
     //     List<Car> availableCars = new ArrayList<>();
 

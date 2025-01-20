@@ -40,8 +40,5 @@ public class AssuranceGateway extends RouteBuilder {
 
                 exchange.getIn().setHeader("Content-Type", "application/json");
             });
-
-        from("rest:get:/assurance/fetch-assurance")
-            .to("direct:getAssuranceInfo");
     }
 } 
