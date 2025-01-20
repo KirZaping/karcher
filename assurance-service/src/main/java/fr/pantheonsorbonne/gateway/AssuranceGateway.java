@@ -28,7 +28,6 @@ public class AssuranceGateway extends RouteBuilder {
                 String type = jsonObject.getString("type");
                 String age = jsonObject.getString("age");
                 String dureePermis = jsonObject.getString("duree_permis");
-
                 if (age == null || age.isEmpty() || dureePermis == null || dureePermis.isEmpty() || type == null || type.isEmpty()) {
                     exchange.getIn().setBody("{\"error\": \"Missing required parameters\"}");
                     exchange.getIn().setHeader("CamelHttpResponseCode", 400); // Code de réponse 400 Bad Request

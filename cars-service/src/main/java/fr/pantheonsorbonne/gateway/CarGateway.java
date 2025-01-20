@@ -31,6 +31,10 @@ public class CarGateway extends RouteBuilder{
                         LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
                         LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
                     ));
+                } else if ("choose-car".equals(task)) {
+                    String carId = exchange.getIn().getHeader("carId", String.class);
+                    exchange.getIn().setBody("{\"status\": \"Car choosing\", \"carId\": \"" + carId + "\"}");
+                    //exchange.getIn().setBody(carService.chooseCar(exchange.getIn().getHeader("carId", String.class)));
                 } else {
                     exchange.getIn().setBody(carService.getAllCars());
                 }

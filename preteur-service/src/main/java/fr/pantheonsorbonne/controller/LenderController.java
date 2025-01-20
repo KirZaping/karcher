@@ -18,7 +18,7 @@ public class LenderController {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public String getAvailability(@QueryParam("CarId") String id, @QueryParam("start_date") String start_date, @QueryParam("end_date") String end_date){
-        return lenderService.checkAvailability(id, start_date, end_date);
+        return "";//lenderService.checkAvailability(id, start_date, end_date);
     }
         
 }
