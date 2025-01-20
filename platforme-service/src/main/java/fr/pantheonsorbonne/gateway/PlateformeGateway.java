@@ -10,17 +10,39 @@ public class PlateformeGateway extends RouteBuilder{
     @Override
     public void configure() throws Exception {
 
+      /*   from("rest:get:/test")
+            .setBody(constant("Hello, World!"))
+            .to("sjms2:queue:platforme-queue")
+            .log("Message envoyé au broker: ${body}");
+
+        from("sjms2:queue:platforme-queue")
+            .log("Message reçu du broker: ${body}")
+            .log("Message reçu du broker: ${body}");*/
+
+
         from("rest:get:/fetch-assurance")
             .to("direct:fetch-assurance")
-            .log("Réponse du service assurance: ${body}");
+            .log("[PlateformeGateway] Réponse du service assurance: ${body}");
+            /* .process(exchange -> {
+                String type = exchange.getIn().getHeader("type", String.class);
+                String age = exchange.getIn().getHeader("age", String.class);
+                String dureePermis = exchange.getIn().getHeader("duree_permis", String.class);
+                exchange.getIn().setHeader("type", type);
+                exchange.getIn().setHeader("age", age);
+                exchange.getIn().setHeader("duree_permis", dureePermis);
+            })
+            .to("sjms2:queue:assurance-queue")
+            .log("[PlateformeGateway] Réponse du service assurance: ${body}");*/
 
         from("direct:fetch-assurance")
-        // Extraire les paramètres dynamiques depuis l'URL
             .process(exchange -> {
                 // Récupérer les paramètres de l'URL
                 String type = exchange.getIn().getHeader("type", String.class);
                 String age = exchange.getIn().getHeader("age", String.class);
                 String dureePermis = exchange.getIn().getHeader("duree_permis", String.class);
+                System.out.println("type: " + type);
+                System.out.println("age: " + age);
+                System.out.println("dureePermis: " + dureePermis);
 
                 if (age == null || age.isEmpty() || dureePermis == null || dureePermis.isEmpty() || type == null || type.isEmpty()) {
                     exchange.getIn().setBody("{\"error\": \"Missing required parameters\"}");
@@ -29,13 +51,12 @@ public class PlateformeGateway extends RouteBuilder{
                     return;
                 }
 
-                // Ajouter les paramètres à l'URL de l'appel vers le service d'assurance
-                String url = "http://localhost:8080/assurance?type=" + type + "&age=" + age + "&duree_permis=" + dureePermis + "&bridgeEndpoint=true";
-                exchange.getIn().setHeader("CamelHttpUri", url); // Mettre l'URL dynamique dans l'en-tête
+                // Créer le message à envoyer au broker
+                String message = "{\"type\":\"" + type + "\", \"age\":\"" + age + "\", \"duree_permis\":\"" + dureePermis + "\"}";
+                exchange.getIn().setBody(message);
             })
-            // Appeler le service d'assurance avec l'URL dynamique construite précédemment
-            .toD("${header.CamelHttpUri}") // Utiliser l'URL dynamique
-            .log("Réponse du service assurance: ${body}");
+            .to("sjms2:queue:assurance-queue") // Envoyer le message à la queue assurance-queue
+            .log("Message envoyé au broker: ${body}");
 
 
 
