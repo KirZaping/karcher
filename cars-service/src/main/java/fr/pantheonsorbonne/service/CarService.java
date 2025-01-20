@@ -20,8 +20,8 @@ public class CarService {
     @Transactional
     public String getAllCars() {
         String response = "[" + carRepository.listAll().stream()
-            .map(car -> String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\"}", 
-                car.getId(), car.getType(), car.getBrand(), car.getModel()))
+            .map(car -> String.format("{\"carId\": \"%s\", \"owner\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\", \"pricePerDay\": %d, \"startDateAvailability\": \"%s\", \"endDateAvailability\": \"%s\", \"location\": \"%s\"}", 
+                car.getId(), car.getOwner(), car.getType(), car.getBrand(), car.getModel(), car.getPricePerDay(), car.getStartDateAvailability(), car.getEndDateAvailability(), car.getLocation()))
             .collect(Collectors.joining(", ")) + "]";
         return response; // Retourne la liste des voitures au format JSON
     }
@@ -29,9 +29,10 @@ public class CarService {
     @Transactional
     public String getAvailableCars(String location, LocalDate startDate, LocalDate endDate) {
         List<Car> availableCars = carRepository.findAvailableCars(location, startDate, endDate);
+        long nbOfDays = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
         String response = "[" + availableCars.stream()
-            .map(car -> String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\", \"location\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\"}", 
-                car.getId(), car.getType(), car.getBrand(), car.getModel(), location, startDate, endDate))
+            .map(car -> String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\", \"location\": \"%s\", \"startDateAvailability\": \"%s\", \"endDateAvailability\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\", \"nbOfDays\": %d, \"pricePerDay\": %d, \"totalPrice\": %d}", 
+                car.getId(), car.getType(), car.getBrand(), car.getModel(), car.getLocation(), car.getStartDateAvailability(), car.getEndDateAvailability(), startDate, endDate, nbOfDays, car.getPricePerDay(), car.getPricePerDay() * (int)nbOfDays))
             .collect(Collectors.joining(", ")) + "]";
         return response; // Retourne la liste des voitures disponibles au format JSON
     }

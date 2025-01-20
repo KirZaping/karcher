@@ -48,7 +48,7 @@ public class DataInitializer {
                 car.setBrand(random.nextBoolean() ? "Toyota" : "BMW"); // Randomly choose between Toyota and BMW
                 car.setModel("Model " + (random.nextInt(100) + 1)); // Random model number between 1 and 100
                 car.setOwner("Owner " + i);
-                car.setPricePerDay(50 + (random.nextDouble() * 50)); // Random price between 50 and 100
+                car.setPricePerDay(50 + random.nextInt(51)); // Random price between 50 and 100 (int)
                 
                 car.setStartDateAvailability(LocalDate.now()); // Fixed start date (today)
                 car.setEndDateAvailability(LocalDate.now().plusDays(random.nextInt(10) + 1)); // Varying end dates (1 to 10 days from today)

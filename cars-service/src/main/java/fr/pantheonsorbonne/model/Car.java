@@ -15,7 +15,7 @@ public class Car {
     private String owner;
     private String brand;
     private String model;
-    private double pricePerDay;
+    private int pricePerDay; // Changed from double to int
     private LocalDate startDateAvailability;
     private LocalDate endDateAvailability;
     private String type; 
@@ -27,12 +27,12 @@ public class Car {
     }
 
     // Constructeur avec paramètres
-    public Car(Long id, String owner, String brand, String model, double pricePerDay, LocalDate startDateAvailability, LocalDate endDateAvailability, String type, String location) {
+    public Car(Long id, String owner, String brand, String model, int pricePerDay, LocalDate startDateAvailability, LocalDate endDateAvailability, String type, String location) { // Changed from double to int
         this.id = id;
         this.owner = owner;
         this.brand = brand;
         this.model = model;
-        this.pricePerDay = pricePerDay;
+        this.pricePerDay = pricePerDay; // Changed from double to int
         this.startDateAvailability = startDateAvailability;
         this.endDateAvailability = endDateAvailability;
         this.type = type;
@@ -72,12 +72,12 @@ public class Car {
         this.model = model;
     }
 
-    public double getPricePerDay() {
-        return pricePerDay;
+    public int getPricePerDay() { // Changed from double to int
+        return pricePerDay; // Changed from double to int
     }
 
-    public void setPricePerDay(double pricePerDay) {
-        this.pricePerDay = pricePerDay;
+    public void setPricePerDay(int pricePerDay) { // Changed from double to int
+        this.pricePerDay = pricePerDay; // Changed from double to int
     }
 
     public LocalDate getStartDateAvailability() {
