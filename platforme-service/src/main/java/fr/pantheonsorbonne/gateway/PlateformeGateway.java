@@ -1,11 +1,21 @@
 package fr.pantheonsorbonne.gateway;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PlateformeGateway extends RouteBuilder{
+
+    @ConfigProperty(name = "quarkus.artemis.queue.platformeQueue")
+    String platformeQueue;
+
+    @ConfigProperty(name = "quarkus.artemis.queue.assuranceQueue")
+    String assuranceQueue;
+
+    @ConfigProperty(name = "quarkus.artemis.queue.carsQueue")
+    String carsQueue;
 
     @Override
     public void configure() throws Exception {
@@ -23,7 +33,7 @@ public class PlateformeGateway extends RouteBuilder{
 
                 if (age == null || age.isEmpty() || dureePermis == null || dureePermis.isEmpty() || type == null || type.isEmpty()) {
                     exchange.getIn().setBody("{\"error\": \"Missing required parameters\"}");
-                    exchange.getIn().setHeader("CamelHttpResponseCode", 600); // Code de réponse 400 Bad Request
+                    exchange.getIn().setHeader("CamelHttpResponseCode", 400); // Code de réponse 400 Bad Request
                     exchange.getIn().setHeader("Content-Type", "application/json"); // Définir le type de contenu
                     return;
                 }
@@ -32,13 +42,14 @@ public class PlateformeGateway extends RouteBuilder{
                 String message = "{\"type\":\"" + type + "\", \"age\":\"" + age + "\", \"duree_permis\":\"" + dureePermis + "\"}";
                 exchange.getIn().setBody(message);
             })
-            .to("sjms2:queue:assurance-queue") // Envoyer le message à la queue assurance-queue
+            .to(assuranceQueue) // Envoyer le message à la queue assurance-queue
             .log("Message envoyé au broker: ${body}");
 
 
         //valider la disponibilité d'une voiture
         //http://localhost:8082/fetch-car?task=available&location=Paris&startDate=2025-01-20&endDate=2025-01-21
         from("rest:get:/fetch-car")
+            .log("[PlateformeGateway] Message en cours de traitement")
             .process(exchange -> {
                 String task = exchange.getIn().getHeader("task", String.class);
                 String location = exchange.getIn().getHeader("location", String.class);
@@ -48,7 +59,7 @@ public class PlateformeGateway extends RouteBuilder{
                     task, location, startDate, endDate);
                 exchange.getIn().setBody(message);
             })
-            .to("sjms2:queue:cars-queue")
+            .to(carsQueue)
             .log("[PlateformeGateway] Réponse du service de disponibilité des voitures: ${body}");
 
         //confirmer la location d'une voiture
@@ -61,13 +72,5 @@ public class PlateformeGateway extends RouteBuilder{
                 exchange.getIn().setBody(response);
             });
 
-        from("rest:get:/fetch-all-cars")
-            .to("http://localhost:8083/list-cars?bridgeEndpoint=true")
-            .log("Réponse du service assurance: ${body}");
-
-        //http://localhost:8082/fetch-availability-cars?carId=1&startDate=2023-11-01&endDate=2023-11-10
-        from("rest:get:/fetch-availability-cars")
-            .to("http://localhost:8083/list-availability?bridgeEndpoint=true")
-            .log("Réponse du service assurance: ${body}");
     }
 } 

@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.gateway;
 
-
 import org.apache.camel.builder.RouteBuilder;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import fr.pantheonsorbonne.service.AssuranceService;
 import io.vertx.core.json.JsonObject;
@@ -14,10 +14,12 @@ public class AssuranceGateway extends RouteBuilder {
     @Inject
     AssuranceService assuranceService;
 
+    @ConfigProperty(name = "quarkus.artemis.queue.assuranceQueue")
+    String assuranceQueue;
+
     @Override
     public void configure() throws Exception {
-
-        from("sjms2:queue:assurance-queue")
+        from(assuranceQueue)
             .log("[AssuranceGateway] Message reçu du broker: ${body}")
             .process(exchange -> {
                 String jsonMessage = exchange.getIn().getBody(String.class);
