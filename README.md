@@ -1,6 +1,5 @@
 # Projet KARSHER - Plateforme de Location de Voitures entre Particuliers
 
----
 
 ## Objectifs du système à modéliser
 
@@ -53,6 +52,12 @@ Le système permet :
 
 ---
 
+## Diagramme de séquence
+
+![Diagramme de sequence du projet KARSHER] (/sequenceDiag.png)
+
+---
+
 ## Scénarios d'utilisation détaillés
 
 ### **Use Case 1 : Accéder à la plateforme pour voir les voitures disponibles**
@@ -60,35 +65,21 @@ Le système permet :
     1. L'utilisateur fournit une **date** et une **localisation**.
     2. La plateforme retourne une liste de **voitures disponibles** avec une estimation des prix.
 
----
-
 ### **Use Case 2 : Valider la disponibilité d'une voiture**
 - **Acteurs** : Plateforme, Prêteur.
     1. La plateforme vérifie avec le prêteur la **disponibilité** de la voiture.
     2. Elle obtient le **prix final** pour la location.
 
----
-
 ### **Use Case 3 : Demande du profil utilisateur**
 - **Acteurs** : Utilisateur, Plateforme.
     1. La plateforme récupère les **informations personnelles nécessaires** de l'utilisateur (nom, prénom, âge, etc.).
-
----
 
 ### **Use Case 4 : Récupération des prix des assureurs**
 - **Acteurs** : Plateforme, Assureurs.
     1. La plateforme envoie le **profil utilisateur** aux assureurs.
     2. Elle récupère les **devis d'assurance**.
 
----
-
-### **Use Case 5 : Récupération périodique des voitures disponibles**
-- **Acteurs** : Plateforme, Prêteur.
-    1. La plateforme actualise les **données des voitures disponibles**, leurs localisations et leurs prix auprès des prêteurs.
-
----
-
-### **Use Case 6 : Confirmation de la location**
+### **Use Case 5 : Confirmation de la location**
 - **Acteurs** : Emprunteur, Plateforme, Prêteur, Assureur.
     1. La plateforme gère la confirmation ou l'annulation des **demandes de location**.
     2. Elle notifie tous les acteurs concernés.
