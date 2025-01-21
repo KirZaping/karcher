@@ -15,7 +15,7 @@ public class LenderService {
         this.random = new Random();
     }
 
-    public String lenderConfirmation() {
-        return random.nextInt(5) == 0 ? "{\"status\": \"unavailable\"}" : "{\"status\": \"available\"}";
+    public String lenderConfirmation(double carId) {
+        return random.nextInt(2) == 0 ? "{\"status\": \"reject\", \"carid\": \"" + carId + "\"}" : "{\"status\": \"accept\", \"carid\": \"" + carId + "\"}";
     }
 }

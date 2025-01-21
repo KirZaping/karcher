@@ -22,11 +22,10 @@ public class LenderGateway extends RouteBuilder {
         from(lenderQueue)
             .log("[LenderGateway] Message reçu du broker: ${body}")
             .process(exchange -> {
-                String response = lenderService.lenderConfirmation();
-                exchange.getIn().setBody(response);
+                String carId = exchange.getIn().getHeader("carId", String.class);
+                String lenderResponse  = lenderService.lenderConfirmation(Double.parseDouble(carId));
+                exchange.getIn().setBody(lenderResponse);
             })
             .log("Réponse du service prêteur: ${body}");
-
-
     }
 }

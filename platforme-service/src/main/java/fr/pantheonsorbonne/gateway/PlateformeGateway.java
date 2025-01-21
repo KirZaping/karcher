@@ -23,6 +23,10 @@ public class PlateformeGateway extends RouteBuilder{
 
     @Override
     public void configure() throws Exception {
+        // Configuration du nom d'hôte pour les endpoints REST
+        restConfiguration()
+            .host("localhost")
+            .port(24000);
 
         // http://localhost:24000/fetch-assurance?type=Arnaque&age=200&duree_permis=5
         from("rest:get:/fetch-assurance")
@@ -46,8 +50,7 @@ public class PlateformeGateway extends RouteBuilder{
                 String message = "{\"type\":\"" + type + "\", \"age\":\"" + age + "\", \"duree_permis\":\"" + dureePermis + "\"}";
                 exchange.getIn().setBody(message);
             })
-            .to(assuranceQueue) // Envoyer le message à la queue assurance-queue
-            .log("Message envoyé au broker: ${body}");
+            .to(assuranceQueue);
 
         // http://localhost:24000/choose-car?task=confirm-location?carId=4
         from("rest:get:/choose-car")
@@ -57,12 +60,11 @@ public class PlateformeGateway extends RouteBuilder{
                 String message = "{\"task\": \"choose-car\", \"carid\": \"" + carId + "\"}";
                 exchange.getIn().setBody(message);
             })
-            .to(carsQueue)
-            .log("[PlateformeGateway] Réponse du service de disponibilité des voitures: ${body}");
+            .to(carsQueue);
 
 
         //valider la disponibilité d'une voiture
-        // http://localhost:24000/fetch-car?task=available&location=Paris&startDate=2025-01-20&endDate=2025-01-21
+        // http://localhost:24000/fetch-car?task=available&location=Paris&startDate=2025-01-24&endDate=2025-01-27
         from("rest:get:/fetch-car")
             .log("[PlateformeGateway] Message en cours de traitement")
             .process(exchange -> {
@@ -70,17 +72,22 @@ public class PlateformeGateway extends RouteBuilder{
                 String location = exchange.getIn().getHeader("location", String.class);
                 String startDate = exchange.getIn().getHeader("startDate", String.class);
                 String endDate = exchange.getIn().getHeader("endDate", String.class);
-                String message = String.format("{\"task\": \"%s\", \"location\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\"}", 
-                    task, location, startDate, endDate);
+                String carId = exchange.getIn().getHeader("carId", String.class);
+                String message = String.format("{\"task\": \"%s\", \"location\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\", \"carid\": \"%s\"}", 
+                    task, location, startDate, endDate, carId);
                 exchange.getIn().setBody(message);
             })
-            .to(carsQueue)
-            .log("[PlateformeGateway] Réponse du service de disponibilité des voitures: ${body}");
+            .to(carsQueue);
 
         //confirmer la location d'une voiture
-        // http://localhost:24000/confirm-location
+        // http://localhost:24000/confirm-location?carId=4
         from("rest:get:/confirm-location")
             .log("[PlateformeGateway] Message en cours de traitement")
+            .process(exchange -> {
+                String carId = exchange.getIn().getHeader("carId", String.class);
+                String message = "{\"carid\": \"" + carId + "\"}";
+                exchange.getIn().setBody(message);
+            })
             .to(lenderQueue)
             .process(exchange -> {
                 String jsonMessage = exchange.getIn().getBody(String.class);
@@ -89,11 +96,26 @@ public class PlateformeGateway extends RouteBuilder{
                 exchange.getIn().setBody("{\"status\": \"" + status + "\"}");
             })
             .choice()
-                .when().simple("${body} contains 'available'")
+                .when().simple("${body} contains 'accept'")
                     .to("direct:chooseCar")
                 .otherwise()
-                    .to("direct:fetch-assurance")
-            .log("Réponse du service de confirmation de la location: ${body}");
+                    .to("direct:lender-reject");
+            
+        from("direct:chooseCar")
+            .process(exchange -> {
+                //TODO: récupérer le carId et envoyer le message au service de location
+                String message = "{\"task\": \"reserve\", \"carid\": \"4\"}";
 
+                exchange.getIn().setBody(message);
+            })
+            .to(carsQueue);
+    
+        from("direct:lender-reject")
+            .process(exchange -> {
+                String message = "{\"lender-reject\": \"The lender reject the location\"}";
+                exchange.getIn().setHeader("CamelHttpResponseCode", 200);
+                exchange.getIn().setHeader("Content-Type", "application/json");
+                exchange.getIn().setBody(message);
+            });
     }
 } 
