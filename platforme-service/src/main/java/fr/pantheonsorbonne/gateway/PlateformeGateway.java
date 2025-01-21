@@ -93,18 +93,28 @@ public class PlateformeGateway extends RouteBuilder{
                 String jsonMessage = exchange.getIn().getBody(String.class);
                 JsonObject jsonObject = new JsonObject(jsonMessage);
                 String status = jsonObject.getString("status");
-                exchange.getIn().setBody("{\"status\": \"" + status + "\"}");
+                String carId = jsonObject.getString("carid");
+                exchange.getIn().setBody("{\"status\": \"" + status + "\", \"carid\": \"" + carId + "\"}");
             })
             .choice()
                 .when().simple("${body} contains 'accept'")
+                    .process(exchange -> {
+                        String carId = exchange.getIn().getHeader("carId", String.class);
+                        exchange.getIn().setBody("{\"carid\": \"" + carId + "\"}");
+                    })
                     .to("direct:chooseCar")
                 .otherwise()
+                    .process(exchange -> {
+                        String carId = exchange.getIn().getHeader("carId", String.class);
+                        exchange.getIn().setBody("{\"carid\": \"" + carId + "\"}");
+                    })
                     .to("direct:lender-reject");
             
         from("direct:chooseCar")
             .process(exchange -> {
                 //TODO: récupérer le carId et envoyer le message au service de location
-                String message = "{\"task\": \"reserve\", \"carid\": \"4\"}";
+                String carId = exchange.getIn().getHeader("carId", String.class);
+                String message = "{\"task\": \"reserve\", \"carid\": \"" + carId + "\"}";
 
                 exchange.getIn().setBody(message);
             })
@@ -112,7 +122,8 @@ public class PlateformeGateway extends RouteBuilder{
     
         from("direct:lender-reject")
             .process(exchange -> {
-                String message = "{\"lender-reject\": \"The lender reject the location\"}";
+                String carId = exchange.getIn().getHeader("carId", String.class);
+                String message = "{\"lender-reject\": \"The lender reject the location\", \"carid\": \"" + carId + "\"}";
                 exchange.getIn().setHeader("CamelHttpResponseCode", 200);
                 exchange.getIn().setHeader("Content-Type", "application/json");
                 exchange.getIn().setBody(message);
