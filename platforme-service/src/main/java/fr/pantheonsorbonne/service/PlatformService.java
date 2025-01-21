@@ -1,27 +1,17 @@
 package fr.pantheonsorbonne.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class PlatformService {
 
-    // private final Platforme platforme; // Déclaration de l'objet Platforme
+    private double price_assurance;
 
-    // @Inject
-    // public PlatformService(Platforme platforme) { // Constructeur pour l'injection de dépendance
-    //     this.platforme = platforme;
-    // }
+    public void setPriceAssurance(double price_assurance) {
+        this.price_assurance = price_assurance;
+    }
 
-    // @Inject
-    // CarRepository carRepository;
-
-    // public String getPriceAssurance(double age, double duree_permis, String type) {
-    //     // Appel au service d'assurance via le gateway
-    //     String response = platforme.getNom();
-    //     return response;
-    // }
-
-    // public List<Car> getAvailableCars(String location, LocalDate startDate, LocalDate endDate) {
-    //     // Logic to fetch available cars based on location and dates
-    //     return carRepository.findAvailableCars(location, startDate, endDate);
-    // }
-
-    // Logique de service pour gérer les assurances
+    public double getPriceAssurance() {
+        return price_assurance;
+    }
 } 

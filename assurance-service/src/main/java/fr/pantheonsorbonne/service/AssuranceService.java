@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.service;
 
 import fr.pantheonsorbonne.model.Assurance;
+import io.vertx.core.json.JsonObject;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -22,8 +23,12 @@ public class AssuranceService {
     }
 
     public String getAssuranceInfo() {
-        return String.format("{\"Récapitulatif commande\": \"type: %s - age: %.2f - duree_permis: %.2f\", \"prix\": %.2f, \"Assureure\": \" %s\"}", 
-                             assurance.getType(), assurance.getAge(), assurance.getDureePermis(), assurance.getPrice(), assurance.getAssureur());
+        JsonObject jsonResponse = new JsonObject();
+        jsonResponse.put("Récapitulatif commande", String.format("type: %s - age: %.2f - duree_permis: %.2f", 
+                             assurance.getType(), assurance.getAge(), assurance.getDureePermis()));
+        jsonResponse.put("prix", assurance.getPrice());
+        jsonResponse.put("Assureure", assurance.getAssureur());
+        return jsonResponse.toString();
     }
 
 } 
