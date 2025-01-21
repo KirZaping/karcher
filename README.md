@@ -1,4 +1,6 @@
-## Projet KARSHER - Plateforme de Location de Voitures entre Particuliers
+# Projet KARSHER - Plateforme de Location de Voitures entre Particuliers
+
+---
 
 ## Objectifs du système à modéliser
 
@@ -10,7 +12,9 @@ Le système permet :
 - Aux utilisateurs (emprunteurs) de rechercher et réserver des voitures selon des critères de **date** et **localisation**, avec estimation des prix.
 - De gérer la confirmation des locations et les coûts d'assurance proposés par des partenaires assureurs.
 
-### Acteurs principaux du système
+---
+
+## Acteurs principaux du système
 1. **Utilisateur (Emprunteur)** :  
    Recherche et réserve une voiture selon ses besoins.
 2. **Prêteurs (Propriétaires)** :  
