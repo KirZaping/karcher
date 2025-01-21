@@ -10,6 +10,7 @@ import fr.pantheonsorbonne.repository.CarRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import io.vertx.core.json.JsonObject;
 
 @ApplicationScoped
 public class CarService {
@@ -19,10 +20,23 @@ public class CarService {
 
     @Transactional
     public String getAllCars() {
-        String response = "[" + carRepository.listAll().stream()
-            .map(car -> String.format("{\"carId\": \"%s\", \"owner\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\", \"pricePerDay\": %d, \"startDateAvailability\": \"%s\", \"endDateAvailability\": \"%s\", \"location\": \"%s\"}", 
-                car.getId(), car.getOwner(), car.getType(), car.getBrand(), car.getModel(), car.getPricePerDay(), car.getStartDateAvailability(), car.getEndDateAvailability(), car.getLocation()))
-            .collect(Collectors.joining(", ")) + "]";
+        List<Car> cars = carRepository.listAll();
+        List<JsonObject> jsonCars = cars.stream()
+            .map(car -> {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.put("carId", car.getId());
+                jsonObject.put("owner", car.getOwner());
+                jsonObject.put("type", car.getType());
+                jsonObject.put("brand", car.getBrand());
+                jsonObject.put("model", car.getModel());
+                jsonObject.put("pricePerDay", car.getPricePerDay());
+                jsonObject.put("startDateAvailability", car.getStartDateAvailability());
+                jsonObject.put("endDateAvailability", car.getEndDateAvailability());
+                jsonObject.put("location", car.getLocation());
+                return jsonObject;
+            })
+            .collect(Collectors.toList());
+        String response = jsonCars.toString();
         return response; // Retourne la liste des voitures au format JSON
     }
 

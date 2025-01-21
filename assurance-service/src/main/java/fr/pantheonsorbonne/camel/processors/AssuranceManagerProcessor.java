@@ -4,17 +4,26 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 import io.vertx.core.json.JsonObject;
-import jakarta.inject.Inject;
 import fr.pantheonsorbonne.service.AssuranceService;
 
 public class AssuranceManagerProcessor implements Processor {
 
-    @Inject
-    AssuranceService assuranceService;
+    private final AssuranceService assuranceService;
+
+    public AssuranceManagerProcessor(AssuranceService assuranceService) {
+        this.assuranceService = assuranceService;
+    }
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+        if (assuranceService == null) {
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.put("error", "AssuranceService is not initialized");
+            exchange.getIn().setBody(errorResponse.toString());
+            exchange.getIn().setHeader("CamelHttpResponseCode", 500); // Code de réponse 500 Internal Server Error
+            exchange.getIn().setHeader("Content-Type", "application/json");
+            return;
+        }
 
         String jsonMessage = exchange.getIn().getBody(String.class);
         System.out.println("jsonMessage: " + jsonMessage);

@@ -16,10 +16,12 @@ public class LenderService {
         this.random = new Random();
     }
 
-    public String lenderConfirmation(double carId) {
+    public String lenderConfirmation(double carId, String startDate, String endDate) {
         JsonObject response = new JsonObject();
         response.put("status", random.nextInt(2) == 0 ? "reject" : "accept");
         response.put("carid", carId);
+        response.put("startDate", startDate);
+        response.put("endDate", endDate);
         return response.toString();
     }
 }

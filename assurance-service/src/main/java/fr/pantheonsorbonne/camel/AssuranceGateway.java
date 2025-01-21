@@ -21,6 +21,6 @@ public class AssuranceGateway extends RouteBuilder {
     public void configure() throws Exception {
         from(assuranceQueue)
             .log("[AssuranceGateway] Message reçu du broker: ${body}")
-            .process(new AssuranceManagerProcessor());
+            .process(new AssuranceManagerProcessor(assuranceService));
     }
 } 

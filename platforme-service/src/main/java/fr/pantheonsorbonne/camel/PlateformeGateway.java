@@ -61,7 +61,9 @@ public class PlateformeGateway extends RouteBuilder{
                 String message = "{\"carid\": \"" + carId + "\"}";
                 exchange.getIn().setBody(message);
             })
+            .log("[PlateformeGateway] Message en cours d'envoi au broker")
             .to(lenderQueue)
+            .log("[PlateformeGateway] Message reçu du broker")
             .process(new LenderAskingLocation())
             .choice()
                 .when().simple("${body} contains 'accept'")
