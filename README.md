@@ -54,7 +54,7 @@ Le système permet :
 
 ## Diagramme de séquence
 
-![Diagramme de sequence du projet KARSHER] (/sequenceDiag.png)
+![Diagramme de sequence du projet KARSHER](/sequenceDiag.png)
 
 ---
 
