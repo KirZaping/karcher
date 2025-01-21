@@ -64,7 +64,7 @@ public class PlateformeGateway extends RouteBuilder{
 
 
         //valider la disponibilité d'une voiture
-        // http://localhost:24000/fetch-car?task=available&location=Paris&startDate=2025-01-24&endDate=2025-01-27
+        // http://localhost:24000/fetch-car?task=available&location=Paris&startDate=2025-01-23&endDate=2025-01-25
         from("rest:get:/fetch-car")
             .log("[PlateformeGateway] Message en cours de traitement")
             .process(exchange -> {
