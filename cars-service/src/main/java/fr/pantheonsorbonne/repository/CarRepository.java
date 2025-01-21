@@ -24,18 +24,25 @@ public class CarRepository implements PanacheRepository<Car> {
         deleteAll(); // This will delete all records in the Car table
     }
 
-    // Method to reserve a car by updating its availability dates
-    public void reserveCar(Long carId, LocalDate startDate, LocalDate endDate) {
-        Car car = findById(carId);
-        if (car != null) {
-            boolean isOverlapping = startDate.isBefore(car.getEndDateAvailability()) && endDate.isAfter(car.getStartDateAvailability());
-            if (isOverlapping) {
-                LocalDate newStartDate = startDate.isAfter(car.getStartDateAvailability()) ? startDate : car.getStartDateAvailability();
-                LocalDate newEndDate = endDate.isBefore(car.getEndDateAvailability()) ? endDate : car.getEndDateAvailability();
-                car.setStartDateAvailability(newStartDate);
-                car.setEndDateAvailability(newEndDate);
-            }
-            persist(car); // Save the updated car back to the database
-        }
+
+    public Car getCar(Long carId){
+        Car car=findById(carId);
+        return car;
     }
-} 
+
+    // Method to reserve a car by updating its availability dates
+    // public void reserveCar(Long carId, LocalDate startDate, LocalDate endDate) {
+    //     Car car = findById(carId);
+    //     if (car != null) {
+    //         boolean isOverlapping = startDate.isBefore(car.getEndDateAvailability()) && endDate.isAfter(car.getStartDateAvailability());
+    //         if (isOverlapping) {
+    //             LocalDate newStartDate = startDate.isAfter(car.getStartDateAvailability()) ? startDate : car.getStartDateAvailability();
+    //             LocalDate newEndDate = endDate.isBefore(car.getEndDateAvailability()) ? endDate : car.getEndDateAvailability();
+    //             car.setStartDateAvailability(newStartDate);
+    //             car.setEndDateAvailability(newEndDate);
+    //         }
+    //         persist(car); // Save the updated car back to the database
+    //     }
+
+    }
+ 

@@ -36,4 +36,15 @@ public class CarService {
             .collect(Collectors.joining(", ")) + "]";
         return response; // Retourne la liste des voitures disponibles au format JSON
     }
+
+    @Transactional
+    public String reserveCar(Long carId, LocalDate startDate, LocalDate endDate) {
+        Car selectedCar = carRepository.getCar(carId);
+        long nbOfDays = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+        int totalPrice=  selectedCar.getPricePerDay() * (int)nbOfDays;
+        String response = String.format("{\"carId\": \"%s\", \"type\": \"%s\", \"brand\": \"%s\", \"model\": \"%s\", \"location\": \"%s\", \"startDate\": \"%s\", \"endDate\": \"%s\", \"totalPrice\": %d}", 
+            selectedCar.getId(), selectedCar.getType(), selectedCar.getBrand(), selectedCar.getModel(), selectedCar.getLocation(), startDate, endDate, totalPrice);
+        return response; // Retourne les détails de la réservation au format JSON
+
+    }
 } 
