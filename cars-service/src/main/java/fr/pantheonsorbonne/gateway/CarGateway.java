@@ -31,12 +31,13 @@ public class CarGateway extends RouteBuilder{
                         LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
                         LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
                     ));
-                } else if ("reserve".equals(task)) {
-                    exchange.getIn().setBody(carService.reserveCar(
-                        Long.parseLong(exchange.getIn().getHeader("carId", String.class)),
-                        LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
-                        LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
-                    ));
+                    
+                // } else if ("reserve".equals(task)) {
+                //     exchange.getIn().setBody(carService.reserveCar(
+                //         Long.parseLong(exchange.getIn().getHeader("carId", String.class)),
+                //         LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
+                //         LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
+                //     ));
                 } else {
                     exchange.getIn().setBody(carService.getAllCars());
                 }
