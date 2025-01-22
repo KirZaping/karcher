@@ -1,6 +1,18 @@
 package fr.pantheonsorbonne.dto;
 
 public class CarDTO {
+    //id
+    //type
+    //brand
+    //model
+    //location
+    //startDateAvailability
+    //endDateAvailability
+    // startDate
+    // endDate
+    // nbOfDays
+    // pricePerDay
+    // totalPrice"
     private String model;
     private String brand;
     private double price;
