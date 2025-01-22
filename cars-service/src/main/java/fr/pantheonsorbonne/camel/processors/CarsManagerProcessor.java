@@ -28,6 +28,7 @@ public class CarsManagerProcessor implements Processor {
         //         LocalDate.parse(exchange.getIn().getHeader("startDate", String.class)),
         //         LocalDate.parse(exchange.getIn().getHeader("endDate", String.class))
         //     ));
+
         } else {
             exchange.getIn().setBody(carService.getAllCars());
         }

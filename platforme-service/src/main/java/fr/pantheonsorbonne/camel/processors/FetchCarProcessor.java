@@ -14,8 +14,6 @@ public class FetchCarProcessor implements Processor {
         String endDate = exchange.getIn().getHeader("endDate", String.class);
         String carId = exchange.getIn().getHeader("carId", String.class);
         
-        // Logique de traitement ici
-        // Par exemple, vous pouvez créer un message JSON à envoyer
         JsonObject jsonMessage = new JsonObject();
         jsonMessage.put("task", task);
         jsonMessage.put("location", location);

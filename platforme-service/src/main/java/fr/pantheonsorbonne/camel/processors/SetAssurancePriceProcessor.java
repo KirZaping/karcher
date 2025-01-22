@@ -21,17 +21,15 @@ public class SetAssurancePriceProcessor implements Processor {
         String response_price = exchange.getIn().getBody(String.class);
         System.out.println(response_price);
 
-        // Vérifiez si la chaîne est un JSON valide
         try {
             JsonObject jsonResponse = new JsonObject(response_price);
             Double price = jsonResponse.getDouble("prix");
             System.out.println("price: " + price);
             platformService.setPriceAssurance(price);
         } catch (Exception e) {
-            // Gérer l'erreur de parsing JSON
             System.err.println("Erreur lors du parsing du JSON: " + e.getMessage());
             exchange.getIn().setBody("Erreur de format JSON");
-            exchange.getIn().setHeader(Exchange.HTTP_RESPONSE_CODE, 400); // Code de réponse 400 Bad Request
+            exchange.getIn().setHeader(Exchange.HTTP_RESPONSE_CODE, 400);
         }
     }
 }

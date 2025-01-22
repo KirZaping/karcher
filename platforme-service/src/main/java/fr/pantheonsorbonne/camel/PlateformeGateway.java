@@ -35,7 +35,6 @@ public class PlateformeGateway extends RouteBuilder{
 
     @Override
     public void configure() throws Exception {
-        // Configuration du nom d'hôte pour les endpoints REST
         restConfiguration()
             .host("localhost")
             .port(24000);
@@ -54,14 +53,12 @@ public class PlateformeGateway extends RouteBuilder{
             .to(carsQueue);
 
 
-        //valider la disponibilité d'une voiture
         // http://localhost:24000/fetch-car?task=available&location=Paris&startDate=2025-01-23&endDate=2025-01-25
         from("rest:get:/fetch-car")
             .log("[PlateformeGateway] Message en cours de traitement")
             .process(new FetchCarProcessor())
             .to(carsQueue);
 
-        //confirmer la location d'une voiture
         // http://localhost:24000/confirm-location?carId=4&startDate=2025-01-23&endDate=2025-01-25
         from("rest:get:/confirm-location")
             //.process(new AssuranceSelectedProcessor(platformService))
@@ -82,11 +79,11 @@ public class PlateformeGateway extends RouteBuilder{
                     })
                     .to("direct:lender-reject");
             
-        from("direct:chooseCar")// a vérifier
+        from("direct:chooseCar")
             .process(new ChooseCarProcessor())
             .to(carsQueue);
     
-        from("direct:lender-reject")// a vérifier
+        from("direct:lender-reject")
             .process(new LenderRejectProcessor());
     }
 } 

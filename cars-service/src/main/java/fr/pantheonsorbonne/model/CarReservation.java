@@ -11,25 +11,21 @@ public class CarReservation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reservationId; // Unique identifier for the reservation
+    private Long reservationId;
 
-    private Long carId; // ID of the reserved car
-    private LocalDate startReservationDate; // Start date of the reservation
-    private LocalDate endReservationDate; // End date of the reservation
+    private Long carId;
+    private LocalDate startReservationDate;
+    private LocalDate endReservationDate;
 
-    // Default constructor
     public CarReservation() {
-        // Necessary for Hibernate
     }
 
-    // Constructor with parameters
     public CarReservation(Long carId, LocalDate startReservationDate, LocalDate endReservationDate) {
         this.carId = carId;
         this.startReservationDate = startReservationDate;
         this.endReservationDate = endReservationDate;
     }
 
-    // Getters and Setters
     public Long getReservationId() {
         return reservationId;
     }

@@ -47,8 +47,7 @@ public class CarController {
     // @Path("/add-car")
     // @Produces(MediaType.TEXT_HTML)
     // public String showAddCarPage() {
-    //     // Retourner le contenu HTML de la page d'ajout de voiture
-    //     return "<html><body><h1>Ajouter une Voiture</h1></body></html>"; // Remplacez par le contenu de add-car.html
+    //     return "<html><body><h1>Ajouter une Voiture</h1></body></html>";
     // }
 
     // @POST
@@ -63,9 +62,9 @@ public class CarController {
     // public Response addDefaultCar() {
     //     try {
     //         carService.addDefaultCar();
-    //         return Response.ok().entity("Voiture par défaut ajoutée avec succès.").build();
+    //         return Response.ok().entity("Voiture default ajout OK").build();
     //     } catch (Exception e) {
-    //         return Response.serverError().entity("Erreur lors de l'ajout de la voiture par défaut : " + e.getMessage()).build();
+    //         return Response.serverError().entity("Erreur ajout voiture default : " + e.getMessage()).build();
     //     }
     // }
 } 

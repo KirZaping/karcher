@@ -7,9 +7,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="preteur-service" />
+        <module name="cars-service" />
         <module name="assurance-service" />
         <module name="platforme-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="commons-service" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="assurance-service" options="-parameters" />
+      <module name="cars-service" options="-parameters" />
+      <module name="platforme-service" options="-parameters" />
+      <module name="preteur-service" options="-parameters" />
+    </option>
   </component>
 </project>

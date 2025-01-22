@@ -1,0 +1,14 @@
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/CarClient.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/DataInitializer.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/camel/CarGateway.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/camel/processors/AllCarsProcessor.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/camel/processors/AvailableCarProcessor.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/camel/processors/CarsManagerProcessor.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/camel/processors/ReserveCarProcessor.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/controller/CarController.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/dto/CarDTO.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/model/Car.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/model/CarReservation.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/repository/CarRepository.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/repository/CarReservationRepository.java
+/Users/livia/IdeaProjects/karcher/cars-service/src/main/java/fr/pantheonsorbonne/service/CarService.java

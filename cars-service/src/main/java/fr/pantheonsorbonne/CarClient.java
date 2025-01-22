@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CarClient {
 
-    private static final String BASE_URL = "http://localhost:8080/cars"; // URL de l'API de platforme-service
+    private static final String BASE_URL = "http://localhost:8080/cars";
     private final Client client;
 
     public CarClient() {

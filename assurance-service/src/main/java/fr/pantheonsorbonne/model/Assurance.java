@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class Assurance {
-    private static final double TARIF_FORFAITAIRE = 25; // Constante pour le tarif forfaitaire
+    private static final double TARIF_FORFAITAIRE = 25;
     private String type;
     private double price;
     private double age;
@@ -47,8 +47,6 @@ public class Assurance {
             case "Pigeon" -> 150;
             default -> 150;
         };
-
-        // Calculer le prix en fonction de l'âge et de l'expérience
         if (this.age > 65) {
             this.price = TARIF_FORFAITAIRE * coefficient_prix * (1 + (this.age - 65) * 0.1);
         } else {
@@ -59,12 +57,9 @@ public class Assurance {
                 this.price = TARIF_FORFAITAIRE * coefficient_prix;
             }
         }
-
         if (this.price > 500) {
             this.price = 500;
         }
-
-        // Comparer les tarifs des assureurs
         comparerAssureur();
     }
 
@@ -82,7 +77,6 @@ public class Assurance {
         double prixMin = Math.min(prixCovea, Math.min(prixGroupama, prixMMA));
         this.price = prixMin;
 
-        // Déterminer l'assureur le moins cher
         if (prixMin == prixCovea) {
             this.assureur = "Covéa";
         } else if (prixMin == prixGroupama) {
@@ -93,7 +87,7 @@ public class Assurance {
     }
 
     private double setCoveaPrice() {
-        double prixCovea = this.price; // Tarifs majorés à 400 EUR
+        double prixCovea = this.price;
         if (prixCovea > 400) {
             prixCovea = 400;
         }
@@ -103,7 +97,7 @@ public class Assurance {
     private double setGroupamaPrice() {
         double prixGroupama = this.price;
         if (this.age < 25 && this.duree_permis < 5) {
-            prixGroupama *= 0.6; // Tarifs avantageux pour les jeunes permis
+            prixGroupama *= 0.6;
         }
         return prixGroupama;
     }
@@ -111,7 +105,7 @@ public class Assurance {
     private double setMMAPrice() {
         double prixMMA = this.price;
         if (this.age > 60) {
-            prixMMA *= 0.65; // Avantages pour les personnes âgées
+            prixMMA *= 0.65;
         }
         return prixMMA;
     }

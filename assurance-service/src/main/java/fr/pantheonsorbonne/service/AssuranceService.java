@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
 public class AssuranceService {
 
     @Inject
-    private final Assurance assurance; // Déclaration de l'objet Assurance
+    private final Assurance assurance;
 
     public AssuranceService(Assurance assurance) { // Constructeur pour l'injection de dépendance
         this.assurance = assurance;

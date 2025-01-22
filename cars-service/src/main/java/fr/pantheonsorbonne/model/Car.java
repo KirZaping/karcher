@@ -15,31 +15,27 @@ public class Car {
     private String owner;
     private String brand;
     private String model;
-    private int pricePerDay; // Changed from double to int
+    private int pricePerDay;
     private LocalDate startDateAvailability;
     private LocalDate endDateAvailability;
     private String type; 
     private String location;
 
-    // Constructeur par défaut
     public Car() {
-        // Nécessaire pour Hibernate
     }
 
-    // Constructeur avec paramètres
     public Car(Long id, String owner, String brand, String model, int pricePerDay, LocalDate startDateAvailability, LocalDate endDateAvailability, String type, String location) { // Changed from double to int
         this.id = id;
         this.owner = owner;
         this.brand = brand;
         this.model = model;
-        this.pricePerDay = pricePerDay; // Changed from double to int
+        this.pricePerDay = pricePerDay;
         this.startDateAvailability = startDateAvailability;
         this.endDateAvailability = endDateAvailability;
         this.type = type;
         this.location = location;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -72,12 +68,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getPricePerDay() { // Changed from double to int
-        return pricePerDay; // Changed from double to int
+    public int getPricePerDay() {
+        return pricePerDay;
     }
 
-    public void setPricePerDay(int pricePerDay) { // Changed from double to int
-        this.pricePerDay = pricePerDay; // Changed from double to int
+    public void setPricePerDay(int pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public LocalDate getStartDateAvailability() {

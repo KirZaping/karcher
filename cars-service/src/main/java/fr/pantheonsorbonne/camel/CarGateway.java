@@ -40,7 +40,7 @@ public class CarGateway extends RouteBuilder{
 
         from("direct:allCars")
             .log("[CarGateway] Message reçu du broker: ${body}")
-            .process(new AllCarsProcessor(carService)) // Passer carService en paramètre
+            .process(new AllCarsProcessor(carService))
             .log("[CarGateway] Réponse du service de disponibilité des voitures: ${body}");
 
         from("direct:reserveCar")

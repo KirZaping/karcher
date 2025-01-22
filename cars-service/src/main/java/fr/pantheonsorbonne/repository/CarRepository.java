@@ -9,19 +9,17 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CarRepository implements PanacheRepository<Car> {
-    // Vous pouvez ajouter des méthodes personnalisées ici si nécessaire
-    
+
     public List<Car> findAvailableCars(String location, LocalDate startDate, LocalDate endDate) {
         return find("location = ?1 and startDateAvailability <= ?2 and endDateAvailability >= ?3", location, startDate, endDate).list();
     }
 
     public List<Car> findAllCars() {
-        return listAll(); // Retrieve the list of cars directly from the MariaDB database
+        return listAll();
     }
 
-    // Method to delete all cars from the database
     public void deleteAllCars() {
-        deleteAll(); // This will delete all records in the Car table
+        deleteAll();
     }
 
 
@@ -30,7 +28,6 @@ public class CarRepository implements PanacheRepository<Car> {
         return car;
     }
 
-    // Method to reserve a car by updating its availability dates
     // public void reserveCar(Long carId, LocalDate startDate, LocalDate endDate) {
     //     Car car = findById(carId);
     //     if (car != null) {
@@ -41,7 +38,7 @@ public class CarRepository implements PanacheRepository<Car> {
     //             car.setStartDateAvailability(newStartDate);
     //             car.setEndDateAvailability(newEndDate);
     //         }
-    //         persist(car); // Save the updated car back to the database
+    //         persist(car);
     //     }
 
     }

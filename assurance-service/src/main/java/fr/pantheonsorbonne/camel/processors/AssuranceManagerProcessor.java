@@ -20,7 +20,7 @@ public class AssuranceManagerProcessor implements Processor {
             JsonObject errorResponse = new JsonObject();
             errorResponse.put("error", "AssuranceService is not initialized");
             exchange.getIn().setBody(errorResponse.toString());
-            exchange.getIn().setHeader("CamelHttpResponseCode", 500); // Code de réponse 500 Internal Server Error
+            exchange.getIn().setHeader("CamelHttpResponseCode", 500);
             exchange.getIn().setHeader("Content-Type", "application/json");
             return;
         }
@@ -35,8 +35,8 @@ public class AssuranceManagerProcessor implements Processor {
             JsonObject errorResponse = new JsonObject();
             errorResponse.put("error", "Missing required parameters");
             exchange.getIn().setBody(errorResponse.toString());
-            exchange.getIn().setHeader("CamelHttpResponseCode", 400); // Code de réponse 400 Bad Request
-            exchange.getIn().setHeader("Content-Type", "application/json"); // Définir le type de contenu
+            exchange.getIn().setHeader("CamelHttpResponseCode", 400);
+            exchange.getIn().setHeader("Content-Type", "application/json");
             return;
         }
 
