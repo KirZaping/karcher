@@ -80,7 +80,7 @@ Le système permet :
     2. Elle récupère les **devis d'assurance**.
 
 ### **Use Case 5 : Confirmation de la location**
-- **Acteurs** : Emprunteur, Plateforme, Prêteur, Assureur.
+- **Acteurs** : Plateforme, Prêteur.
     1. La plateforme gère la confirmation ou l'annulation des **demandes de location**.
     2. Elle notifie tous les acteurs concernés.
 
