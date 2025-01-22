@@ -1,23 +1,17 @@
 package fr.pantheonsorbonne.service;
 
-import fr.pantheonsorbonne.model.Platforme;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class PlatformService {
 
-    private final Platforme platforme; // Déclaration de l'objet Platforme
+    private double price_assurance;
 
-    @Inject
-    public PlatformService(Platforme platforme) { // Constructeur pour l'injection de dépendance
-        this.platforme = platforme;
+    public void setPriceAssurance(double price_assurance) {
+        this.price_assurance = price_assurance;
     }
 
-    public String getPriceAssurance(double age, double duree_permis, String type) {
-        // Appel au service d'assurance via le gateway
-        String response = platforme.getNom();
-        return response;
+    public double getPriceAssurance() {
+        return price_assurance;
     }
-    // Logique de service pour gérer les assurances
 } 

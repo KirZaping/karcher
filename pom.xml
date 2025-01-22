@@ -8,10 +8,11 @@
   <packaging>pom</packaging>
   <name>karcher</name>
 <modules>
+  <module>common</module>
   <module>assurance-service</module>
   <module>preteur-service</module>
   <module>platforme-service</module>
-  <module>commons-service</module>
+  <module>cars-service</module>
 </modules>
   <dependencyManagement>
     <dependencies>
